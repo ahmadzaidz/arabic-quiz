@@ -13,7 +13,25 @@
 
 <div class="frame">
   <div class="ornament-top"></div>
-  <div class="card" id="app"></div>
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="quiz">Quiz</button>
+      <button class="tab-btn" data-tab="add">Add Questions</button>
+    </div>
+    <div id="quizTab" class="tab-panel active">
+      <div id="app">Loading...</div>
+    </div>
+  <div id="addTab" class="tab-panel">
+    <p class=""add-instructions>
+      Build questions in a spreadsheet with columns:<br>
+      question | answer | wrong1 | wrong2 | wrong3 | explanation <br> 
+      Copy the cells and paste below.
+    </p>
+    <textarea id="pasteArea" rows="10" placeholder="Paste spreadsheet rows here..."></textarea>
+  <button id="loadBtn" class="next-btn show">Load Questions</button>
+  <div id="loadStatus"></div>
+  </div>
+  </div>
   <div class="ornament-bottom"></div>
 </div>
 
