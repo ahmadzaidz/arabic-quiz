@@ -1,6 +1,6 @@
 const MASTERY_THRESHOLD = 0.9; // 90%
 
-let mainQueue = questions.map((q, i) => ({ …q, id: i }));
+let mainQueue = questions.map((q, i) => ({ ...q, id: i }));
 let reviewQueue = [];
 let currentPhase = “main”; // “main” | “review”
 let currentIndex = 0;
