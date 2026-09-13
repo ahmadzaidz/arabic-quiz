@@ -84,7 +84,7 @@ const mastered = firstPassPct >= MASTERY_THRESHOLD * 100;
 app.innerHTML = `<div class="result-title">Quiz Complete</div> <div class="result-score">${firstPassScore} / ${total}</div> <div class="result-msg"> First-attempt score: ${firstPassPct}%<br> ${mastered ? "Mastery achieved (≥90%)." : "Below mastery threshold (90%). Review the missed questions above and retry."} </div> <button class="restart-btn" id="restartBtn">Restart Quiz</button>`;
 
 document.getElementById(“restartBtn”).addEventListener(“click”, () => {
-mainQueue = questions.map((q, i) => ({ …q, id: i }));
+mainQueue = questions.map((q, i) => ({ ...q, id: i }));
 reviewQueue = [];
 currentPhase = “main”;
 currentIndex = 0;
