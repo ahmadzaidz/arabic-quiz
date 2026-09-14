@@ -10,6 +10,72 @@ let firstAttemptWrong = new Set();
 
 const app = document.getElementById("app");
 
+// tab switching
+document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab + "Tab").classList.add("active");});
+});
+
+// paste parser - colum order: question | correct | wrong1 | wrong2 | wrong3 | explanation
+function pasteParsedData(text) {
+    const rows = text.trim().split("\n").filter(r => r.trim().length > 0);
+    const parsed = [];
+    for (const row of rows) {
+        const cols = row.split("\t").map(c => c.trim());
+        if (cols.length < 6) continue; //skip malformed rows
+        parsed.push({
+            question: cols[0],
+            choices: [cols[1], cols[2], cols[3], cols[4]],
+            correctIndex: 0,
+            explanation: cols[5]
+        });
+    }
+    return parsed;
+}
+
+document.getElementById("loadBtn").addEventListener("click", () => {
+    const raw = document.getElementById("pasteArea").value;
+    const newQuestions = pasteParsedData(raw);
+    const status = document.getElementById("loadStatus");
+
+    if (newQuestions.length === 0) {
+        status.textContent = "No validquestions found. Check format.";
+        return;
+    }
+
+questions = newQuestions;
+mainQueue = questions.map((q, i) => ({...shuffleChoices(q), id: i})); //haven't written shuffleChoices function
+reviewQueue = [];
+currentPhase = "main";
+currentIndex = 0;
+totalAnswered = 0;
+totalCorrect =0;
+firstAttemptWrong = new Set();
+
+status.textContent = `Loaded ${newQuestions.length} questions.`;
+render();
+});
+
+
+// shuffleChoices
+function shuffleChoices(q) {
+    const paired = q.choices.map((choice, i) => ({
+        choice, isCorrect: i === q.correctIndex
+    }));
+    for (let i = paired.length - 1; i> 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [paired[i], paired[j]] = [paired[j], paired[i]];
+    }
+    return {
+        ...q, choices: paired.map(p => p.choice), correctIndex: paired.findIndex(p => p.isCorrect)
+    };
+}
+
+// quiz logic
+
 function getCurrentQueue() {
     return currentPhase === "main" ? mainQueue : reviewQueue;
     }

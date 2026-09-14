@@ -1,5 +1,5 @@
 // Edit questions here. Each entry: question, choices[], correctIndex, explanation.
-const questions = [
+let questions = [
 {
 question: "ما هي عاصمة المملكة العربية السعودية؟",
 choices: ["جدة", "الرياض", "مكة المكرمة", "الدمام"],
